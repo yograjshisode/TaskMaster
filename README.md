@@ -7,17 +7,29 @@
 - Build the web based application which manages the different stages for tasks.
 - This application will offere a clear and simplified view of task progress for management team by organizing tasks into distinct stages including To-Do, Doing, and Done.
 
-### Scope
+### Scope for phase-1
 
-- **Included:** Task creation and tracking through stages, user assignment, roles and permissions using REST API.
-- **Excluded:** User Interface, API's for reports like tasks by stages/users.
+- **Included:**
+  - Task creation and tracking through stages.
+  - User assignment, roles and permissions using REST API.
+- **Excluded:**
+  - Graphical User Interface.
+  - Support for multiple projects.
+  - API's for reports like tasks by stages/users.
+  - Addition and removal for stages
 
 ## 2. Functional Requirements
 
 ### Feature List
 
-- **Task Management:** Create, edit, and delete tasks. Assign tasks to user.
-- **Task State Changes:** Handle task stage changes.
+- **Task Management:**
+
+  - Create, edit, and delete tasks.
+  - Assign tasks to user.
+- **Task State Changes:**
+
+  - Allow user to change the task stage.
+  - No restriction/validation for stage transition
 - **User Roles:** Define roles such as Admin, Manager, and User with specific permissions.
 
 ### User Roles and Permissions
@@ -30,7 +42,7 @@
 
 ### Performance
 
-- The application should update task statuses in real-time with minimal latency.
+- The application should update task status in real-time with minimal latency.
 
 ### Scalability
 
@@ -43,18 +55,20 @@
 ### Usability
 
 - Swagger API documentation with proper description for API's and fields.
+- Python SDK for API integration.
 
 ## 4. Architecture Design
 
 ### System Architecture
 
-- **Server-Side:** Python with FastAPI for handling server-side logic and API endpoints.
+- **Python Web-App:** Python with FastAPI for handling server-side logic and API endpoints.
 - **Database:** MySQL for storing tasks, user data, and project information.
+  ![1726811603243](image/README/1726811603243.png)
 
 ### Technology Stack
 
 - **Back-End:** Python, FastAPI
-- **Database:** MySQL
+- **Database:** MySQL/Postgres
 
 ### Data Flow
 
@@ -63,6 +77,8 @@
 ## 5. Database Design
 
 ### Schema Design
+
+![1726808405610](image/README/1726808405610.png)
 
 - **Tasks Collection:**
 
@@ -85,18 +101,83 @@
 
 ### API Endpoints
 
-- **GET /tasks:** Retrieve a list of all tasks. Additinal optional filtyers will be available for project, user, stage.
-- **POST /tasks:** Create a new task.
-- **PUT /tasks/🆔** Update an existing task.
-- **DELETE /tasks/🆔** Delete a task.
-- **GET /users:** Retrieve a list of users.
+- **GET /task/all:** Retrieve a list of all tasks. Additinal optional filtyers will be available for project, user, stage.
+
+  - Response payload:
+
+  ```json
+  {
+  "limit": 0,
+  "offset": 0,
+  "total": 0,
+  "results": [
+      {
+  	"created_at": "string",
+  	"updated_at": "string",
+  	"title": "string",
+  	"status": "string",
+  	"assigned_to": "string",
+  	"description": "string",
+  	"task_id": 0
+      }
+    ]
+  }
+  ```
+- **POST /task:** Create a new task.
+
+  - Request Payload
+
+  ```json
+  {
+  "title": "string",
+  "status": "string",
+  "assigned_to": "string",
+  "description": "string"
+  }
+  ```
+
+  - Response Payload
+
+  ```json
+  {
+    "created_at": "string",
+    "updated_at": "string",
+    "title": "string",
+    "status": "string",
+    "assigned_to": "string",
+    "description": "string",
+    "task_id": 0
+  }
+  ```
+- **PUT /task/task_id**Update an existing task.
+
+  - Request Payload
+
+  ```json
+  {
+  'task_id': 0,
+  "title": "string",
+  "status": "string",
+  "assigned_to": "string",
+  "description": "string"
+  }
+  ```
+
+  - Response Payload
+
+  ```json
+  {
+  'task_id': 0,
+  "title": "string",
+  "status": "string",
+  "assigned_to": "string",
+  "description": "string"
+  }
+  ```
+- **DELETE /task/task_id**Delete a task.
+- **GET /users/user_id:** Retrieve a list of users.
 - **POST /users:** Create a new user.
-- **PUT /users/🆔** Update user information.
-
-### Request and Response Formats
-
-- **Request Payload:** JSON format including task details like title, description, and status.
-- **Response Format:** JSON response with task details or status messages.
+- **PUT /users/user_id** Update user information.
 
 ### Authentication
 
@@ -106,7 +187,9 @@
 
 ### Hosting
 
-- **Hosting Provider:** Use a cloud service provider such as AWS for deployment.
+- Containarise the python application using docker.
+- Use AWS RDS as a DB.
+- Helm chart for application to deploy on AWS EKS
 
 ### Deployment Strategy
 
@@ -123,18 +206,22 @@
 ### Test Cases
 
 - **Task Creation:** Ensure tasks can be created and saved correctly.
-- **Task Movement:** Verify tasks can be moved between stages.
+- **Task Stage Transition:** Verify tasks can be moved between stages.
 - **User Authentication:** Test login and role-based access.
 
 ### Quality Assurance
 
-- **Code Reviews:** Regular reviews to maintain code quality.
-- **Automated Tests:** Use automated testing tools to catch regressions and bugs.
+- **Code Reviews:**
+  - Regular reviews to maintain code quality.
+  - Github pre-commit hooks, actions for lint.
+- **Automated Tests:**
+  - Automate the above test cases using pytest
+  - Use jenkins for daily
 
 ### Documentation
 
 - **User Guides:** Instructions for using the application.
-- **API Documentation:** Detailed information for developers using the API.
+- **API Documentation:** Detailed information for developers using the API(Swagger).
 
 ## 11. Timeline and Milestones
 
@@ -145,11 +232,6 @@
 - **Testing Phase:** [Start Date - End Date]
 - **Deployment:** [Deployment Date]
 - **Post-Launch Support:** [Start Date - End Date]
-
-### Deliverables
-
-- **MVP (Minimum Viable Product):** Basic version with core functionalities.
-- **Full Release:** Complete version with all planned features.
 
 ## 12. Risk Management
 
@@ -162,13 +244,3 @@
 
 - **Risk Monitoring:** Regularly assess and address risks.
 - **Contingency Planning:** Prepare alternative plans for critical risks.
-
-## 13. Appendices
-
-### Glossary
-
-- Definitions of terms used in the documentation.
-
-### References
-
-- References to any external documents or resources used in the design process.
