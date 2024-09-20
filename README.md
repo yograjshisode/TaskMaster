@@ -155,7 +155,7 @@
 
   ```json
   {
-  'task_id': 0,
+  "task_id": 0,
   "title": "string",
   "status": "string",
   "assigned_to": "string",
@@ -167,7 +167,7 @@
 
   ```json
   {
-  'task_id': 0,
+  "task_id": 0,
   "title": "string",
   "status": "string",
   "assigned_to": "string",
