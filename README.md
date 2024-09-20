@@ -5,9 +5,9 @@
 ### Project Overview
 
 - Build the web based application which manages the different stages for tasks.
-- This application will offere a clear and simplified view of task progress for management team by organizing tasks into distinct stages including To-Do, Doing, and Done.
+- This application will offer a clear and simplified view of task progress for management team by organizing tasks into distinct stages including To-Do, Doing, and Done.
 
-### Scope for phase-1
+### Scope(Phase-1)
 
 - **Included:**
   - Task creation and tracking through stages.
